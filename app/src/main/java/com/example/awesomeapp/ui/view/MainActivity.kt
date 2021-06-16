@@ -19,8 +19,8 @@ import com.example.awesomeapp.ui.viewmodel.MainViewModel
 import com.example.awesomeapp.ui.viewstate.MainState
 import com.example.awesomeapp.util.ViewModelFactory
 import com.google.android.material.appbar.AppBarLayout
-import com.mindorks.framework.mvi.data.api.ApiHelperImpl
-import com.mindorks.framework.mvi.data.api.RetrofitBuilder
+import com.example.awesomeapp.data.api.ApiHelperImpl
+import com.example.awesomeapp.data.api.RetrofitBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

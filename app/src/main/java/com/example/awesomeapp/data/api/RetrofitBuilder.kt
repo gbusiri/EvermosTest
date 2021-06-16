@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvi.data.api
+package com.example.awesomeapp.data.api
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

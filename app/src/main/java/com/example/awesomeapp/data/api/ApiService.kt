@@ -1,4 +1,4 @@
-package com.mindorks.framework.mvi.data.api
+package com.example.awesomeapp.data.api
 
 import com.example.awesomeapp.data.model.CuratedResponse
 import retrofit2.http.GET
