@@ -1,5 +1,6 @@
 package com.example.awesomeapp.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -139,8 +140,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        curatedAdapter = CuratedAdapter(photos, isGridView) {
-            goToDetailScreen()
+        curatedAdapter = CuratedAdapter(photos, isGridView) { v, photoModel ->
+            goToDetailScreen(photoModel)
         }
         recyclerView.apply {
             layoutManager = if (isGridView) StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -156,7 +157,18 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun goToDetailScreen() {
-        Toast.makeText(this, "Hehe", Toast.LENGTH_SHORT).show()
+    private fun goToDetailScreen(photoModel: PhotoModel) {
+        val intent = Intent(this, DetailActivity::class.java).apply {
+            putExtra(TAG_IMG_LARGE, photoModel.images?.imageLarge)
+            putExtra(TAG_PHOTOGRAPHER, photoModel.photographer)
+            putExtra(TAG_PHOTOGRAPHER_URL, photoModel.photographerUrl)
+        }
+        startActivity(intent)
+    }
+
+    companion object {
+        const val TAG_IMG_LARGE = "tag_img_large"
+        const val TAG_PHOTOGRAPHER = "tag_photographer"
+        const val TAG_PHOTOGRAPHER_URL = "tag_photographer_url"
     }
 }

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.layout_curated_list.view.*
 class CuratedAdapter(
     val photos: List<PhotoModel?>,
     val isGridView: Boolean,
-    val onClickListener: ((View) -> Unit)?
+    val onClickListener: ((View, PhotoModel) -> Unit)?
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ITEM_TYPE_LOADING) {
@@ -43,19 +43,23 @@ class CuratedAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindComponent(photoModel: PhotoModel?, isGridView: Boolean, onClickListener: ((View) -> Unit)?) {
+        fun bindComponent(photoModel: PhotoModel?, isGridView: Boolean, onClickListener: ((View, PhotoModel) -> Unit)?) {
             val imgThumbnail = if (isGridView) itemView.imgThumbnailGrid else itemView.imgThumbnail
             val photographer = if (isGridView) itemView.tvPhotographerGrid else itemView.tvPhotographer
             val photographerUrl = if (isGridView) itemView.tvPhotographerUrlGrid else itemView.tvPhotographerUrl
 
-            Glide.with(itemView)
-                .load(photoModel?.images?.imageTiny)
-                .placeholder(R.drawable.placeholder)
-                .centerCrop()
-                .into(imgThumbnail)
-            photographer.text = photoModel?.photographer
-            photographerUrl.text = photoModel?.photographerUrl
-            itemView.setOnClickListener(onClickListener)
+            photoModel?.let {
+                Glide.with(itemView)
+                    .load(photoModel.images?.imageTiny)
+                    .placeholder(R.drawable.placeholder)
+                    .centerCrop()
+                    .into(imgThumbnail)
+                photographer.text = photoModel.photographer
+                photographerUrl.text = photoModel.photographerUrl
+                itemView.setOnClickListener {
+                    onClickListener?.invoke(it, photoModel)
+                }
+            }
         }
     }
 
