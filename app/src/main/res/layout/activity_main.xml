@@ -22,7 +22,7 @@
             app:toolbarId="@+id/toolbar">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:src="@android:color/holo_blue_bright"
+                android:src="@drawable/evermos"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:layout_width="wrap_content"
                 android:layout_height="160dp"
@@ -40,6 +40,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -53,14 +54,6 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <ProgressBar
-                android:id="@+id/loading"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                android:visibility="visible"
-                android:indeterminateTint="@color/purple_200"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
