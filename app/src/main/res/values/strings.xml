@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Awesome App</string>
     <string name="title_detail">Detail %1$s</string>
+    <string name="error_no_connection">Tidak Ada Koneksi</string>
 </resources>

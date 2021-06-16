@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
@@ -86,18 +87,21 @@ class MainActivity : AppCompatActivity() {
                     is MainState.Idle -> {} // do nothing
                     is MainState.CuratedLoading -> {
                         curatedAdapter.notifyItemChanged(photos.size - 1)
+                        imgError.visibility = View.GONE
                     }
                     is MainState.Curated -> {
                         isLoading = false
                         photos = photos.filterNotNull().toMutableList()
                         photos.addAll(it.data.photos)
                         setupRecyclerView()
+                        imgError.visibility = View.GONE
                     }
                     is MainState.Error -> {
                         isLoading = false
                         photos = photos.filterNotNull().toMutableList()
                         setupRecyclerView()
-                        Toast.makeText(this@MainActivity, it.message, Toast.LENGTH_SHORT).show()
+                        imgError.visibility = View.VISIBLE
+                        Toast.makeText(this@MainActivity, getString(R.string.error_no_connection), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
