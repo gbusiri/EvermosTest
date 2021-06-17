@@ -7,16 +7,15 @@ import com.example.awesomeapp.ui.intent.MainIntent
 import com.example.awesomeapp.ui.viewstate.MainState
 import com.example.awesomeapp.util.Constants
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(val repository: Repository) : ViewModel() {
+class MainViewModel(private val repository: Repository) : ViewModel() {
 
     val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
-    private val _state = MutableStateFlow<MainState>(MainState.Idle)
+    private val _state = repository.state
     val state: StateFlow<MainState>
         get() = _state
 
@@ -31,19 +30,8 @@ class MainViewModel(val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect {
                 when (it) {
-                    is MainIntent.RetrieveImages -> fetchImages()
+                    is MainIntent.RetrieveImages -> repository.retrieveImages(page, limit)
                 }
-            }
-        }
-    }
-
-    private fun fetchImages() {
-        viewModelScope.launch {
-            _state.value = MainState.CuratedLoading
-            _state.value = try {
-                MainState.Curated(repository.retrieveImages(page, limit))
-            } catch(e: Exception) {
-                MainState.Error(e.localizedMessage)
             }
         }
     }

@@ -42,10 +42,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        setupRecyclerView()
+        setupParallax()
         setupViewModel()
         observeViewModel()
-        setupParallax()
-        setupRecyclerView()
         fetchImages()
     }
 
@@ -85,11 +85,11 @@ class MainActivity : AppCompatActivity() {
             mainViewModel.state.collect {
                 when (it) {
                     is MainState.Idle -> {} // do nothing
-                    is MainState.CuratedLoading -> {
+                    is MainState.Loading -> {
                         curatedAdapter.notifyItemChanged(photos.size - 1)
                         imgError.visibility = View.GONE
                     }
-                    is MainState.Curated -> {
+                    is MainState.Success -> {
                         isLoading = false
                         photos = photos.filterNotNull().toMutableList()
                         photos.addAll(it.data.photos)
